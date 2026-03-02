@@ -1,0 +1,17 @@
+-- Load Sales
+A = LOAD '/BDA/Week5/sales.txt'
+USING PigStorage(',')
+AS (order_id:int, product:chararray, category:chararray, amount:int);
+
+-- Filter amount > 5000
+B = FILTER A BY amount > 5000;
+
+-- Sort descending
+C = ORDER A BY amount DESC;
+
+-- Group by category
+D = GROUP A BY category;
+E = FOREACH D GENERATE group, SUM(A.amount);
+
+-- Top 3
+F = LIMIT C 3;
